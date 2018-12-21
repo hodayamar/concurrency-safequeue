@@ -13,6 +13,7 @@ public:
 
     SafeQueue();
     ~SafeQueue();
+
     T pop();
     void push( const T& );
 
@@ -75,7 +76,6 @@ T SafeQueue< T, SIZE >::pop()
     std::cout << "Extract ---  " << tmp << std::endl;
     sleep(1);
 
-
     pthread_mutex_unlock( &mtx );
 
     sem_post( &semPush );
@@ -87,7 +87,6 @@ T SafeQueue< T, SIZE >::pop()
 template< class T, size_t SIZE >
 void SafeQueue< T, SIZE >::push( const T& elementToPush )
 {
-
     sem_wait( &semPush );
 
     pthread_mutex_lock( &mtx );
@@ -96,11 +95,9 @@ void SafeQueue< T, SIZE >::push( const T& elementToPush )
     std::cout << "Push ---- " << elementToPush << std::endl;
     sleep(1);
 
-
     pthread_mutex_unlock( &mtx );
 
     sem_post( &semPop );
-
 }
 
 #endif //EXCELLENTEAM_ELLA_CONCURRENCY_SAFEQUEUE_HODAYAMAR_SAFEQUEUE_H

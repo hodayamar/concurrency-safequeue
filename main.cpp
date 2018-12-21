@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <pthread.h>
-
 #include "SafeQueue.h"
 
-#define NUM_OF_THREAD 4
+#define NUM_OF_THREADS 4
 
 
 void* Poping( void* queue )
@@ -32,18 +31,18 @@ void* randomPushPop( void* queue )
     {
         randPopPush = rand();
 
-        if( randPopPush < 1000 )
+        if( randPopPush < 100000 )
         {
             numToInsert = rand();
             ( ( SafeQueue< int, 5 >* ) queue )-> push( randPopPush );
             std::cout << "Push ---- " << numToInsert << std::endl;
         }
 
+        else
         {
             popNum = ( ( SafeQueue< int, 5 >* ) queue )-> pop();
             std::cout << "Push ---- " << popNum << std::endl;
         }
-
     }
 }
 
@@ -51,22 +50,20 @@ int main()
 {
     SafeQueue< int, 10 > mySafeQueue;
 
-    pthread_t threads [ NUM_OF_THREAD ], threadForPush, threadForPop;
+    pthread_t threads [ NUM_OF_THREADS ], threadForPush, threadForPop;
 
     pthread_create( &threadForPush, NULL, Pushing, ( void* )&mySafeQueue );
     pthread_create( &threadForPop, NULL, Poping, ( void* )&mySafeQueue );
 
-    for ( int i = 0 ; i < NUM_OF_THREAD ; i++ )
+    for ( int i = 0 ; i < NUM_OF_THREADS ; i++ )
 
         pthread_create( &threads[i], NULL, randomPushPop, ( void* )&mySafeQueue );
 
-    for ( int i = 0 ; i < NUM_OF_THREAD ; i++ )
+    for ( int i = 0 ; i < NUM_OF_THREADS ; i++ )
 
         pthread_join( threads[i], NULL );
 
-
-
-    pthread_join( threadForPop,NULL );
+    pthread_join( threadForPop, NULL );
     pthread_join( threadForPush, NULL );
 
     return 0;
