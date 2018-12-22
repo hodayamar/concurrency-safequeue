@@ -25,25 +25,24 @@ void* Pushing( void* queue )
 
 void* randomPushPop( void* queue )
 {
-    int randPopPush, numToInsert, popNum;
+    int randPopPush, numToInsert;
 
     while( true )
     {
         randPopPush = rand();
 
-        if( randPopPush < 100000 )
+        if( randPopPush < 1000000000 )
         {
             numToInsert = rand();
-            ( ( SafeQueue< int, 5 >* ) queue )-> push( randPopPush );
-            std::cout << "Push ---- " << numToInsert << std::endl;
+            ( ( SafeQueue< int, 5 >* ) queue )-> push( numToInsert );
         }
 
         else
         {
-            popNum = ( ( SafeQueue< int, 5 >* ) queue )-> pop();
-            std::cout << "Push ---- " << popNum << std::endl;
+            ( ( SafeQueue< int, 5 >* ) queue )-> pop();
         }
     }
+
 }
 
 int main()
